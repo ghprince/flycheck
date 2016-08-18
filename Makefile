@@ -96,6 +96,17 @@ clean:
 purge:
 	$(GIT) clean -xfd
 
+.PHONY: format
+format:
+	$(RUNEMACS) -l maint/flycheck-format.el -f flycheck/batch-format
+
+.PHONY: check-format
+check-format:
+	$(RUNEMACS) -l maint/flycheck-format.el -f flycheck/batch-check-format
+
+.PHONY: check
+check: check-format
+
 .PHONY: compile
 compile: $(OBJS)
 
@@ -122,7 +133,10 @@ help:
 	@echo ''
 	@echo 'Available targets:'
 	@echo '  init:    Initialise the project.  RUN FIRST!'
+	@echo '  init:    Initialise the project.  RUN FIRST!'
 	@echo '  compile: Byte-compile Emacs Lisp sources'
+	@echo '  check:   Check all Emacs Lisp sources'
+	@echo '  format:  Format all Emacs Lisp sources'
 	@echo '  specs:   Run all buttercup specs for Flycheck'
 	@echo '  unit:    Run all ERT unit tests for Flycheck (legacy)'
 	@echo '  integ:   Run all integration tests for Flycheck'
